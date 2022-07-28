@@ -1,6 +1,7 @@
 #include <windows.h>
 #include <stdio.h>
 #include <iostream>
+#include <winreg.h>
 #pragma comment(lib, "advapi32.lib")
 
 BOOL EnableBackupPrivilege()
@@ -26,6 +27,6 @@ BOOL EnableBackupPrivilege()
 int main() {
 	
 	std::cout << EnableBackupPrivilege() << std::endl;
-	std::cout << CopyFile(L"c:\\Windows\\System32\\config\\SECURITY", L"c:\\Temp\\SECURITY", TRUE) << std::endl;
+	std::cout << RegSaveKeyExW(HKEY_LOCAL_MACHINE, L"c:\\Temp\\hklm", NULL, 1);
 	return 0;
 }
