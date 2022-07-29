@@ -3,6 +3,7 @@
 #include <iostream>
 #include <winreg.h>
 #pragma comment(lib, "advapi32.lib")
+HKEY Keyto;
 
 BOOL EnableBackupPrivilege()
 {
@@ -24,9 +25,12 @@ BOOL EnableBackupPrivilege()
 
 }
 
+LSTATUS Keyt = RegOpenKeyEx(HKEY_LOCAL_MACHINE, L"SYSTEM\\ControlSet001\\Control\\Lsa\\FipsAlgorithmPolicy", 0, KEY_READ, &Keyto);
+
 int main() {
-	
 	std::cout << EnableBackupPrivilege() << std::endl;
-	std::cout << RegSaveKeyExW(HKEY_LOCAL_MACHINE, L"c:\\Temp\\hklm", NULL, 1);
+	std::cout << Keyt << std::endl;
+	std::cout << RegSaveKeyExW(Keyto, L"c:\\Temp\\cut", NULL, 1) << std::endl;
+	std::cout << RegCloseKey(Keyto);
 	return 0;
 }
